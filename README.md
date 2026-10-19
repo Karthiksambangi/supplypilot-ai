@@ -2,8 +2,6 @@
 
 A local prototype for comparing synthetic supplier quotes with Gemini and approving a reviewed synthetic supplier offer for PayPal Sandbox checkout. Prices and totals come from the server-side offer catalog; no live payments are intended.
 
-See [HACKATHON.md](HACKATHON.md) for the project progress summary, tool roles, judging checklist, and a truthful under-3-minute demo outline.
-
 The demo guides a human through **Compare → Review → Approve**. It shows the source quote text beside extracted supplier facts and flags cup/lid compatibility issues. Gemini is optional and can only provide an evidence summary; it cannot approve a purchase or change the basket.
 
 ## Requirements
