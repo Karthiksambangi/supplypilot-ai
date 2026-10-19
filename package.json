@@ -1,0 +1,12 @@
+{
+  "name": "supplypilot-ai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server/index.js",
+    "client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "test": "node --test server/*.test.js"
+  }
+}
