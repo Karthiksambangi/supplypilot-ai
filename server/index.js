@@ -95,7 +95,7 @@ export function createAppServer({ fetchImpl = fetch, getCredentials = () => ({ c
   return createServer(async (req, res) => {
     try {
       const url = new URL(req.url, 'http://localhost');
-      if (req.method === 'GET' && url.pathname === '/api/health') return send(res, 200, { ok: true, sandbox: true });
+      if (req.method === 'GET' && url.pathname === '/api/health') return send(res, 200, { ok: true, sandbox: true, apiVersion: 3 });
       if (req.method === 'GET' && url.pathname === '/api/offers') return send(res, 200, { offers: OFFER_CATALOG.map(toPublicOffer) });
       if (req.method !== 'POST') return send(res, 404, { error: 'Not found' });
       const input = await bodyJson(req);

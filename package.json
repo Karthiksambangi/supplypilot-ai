@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "start": "node scripts/start-local.js",
     "dev": "node server/index.js",
-    "client": "npm --prefix client run dev",
+    "client": "node scripts/start-local.js",
     "build": "npm --prefix client run build",
     "test": "node --test server/*.test.js"
   }

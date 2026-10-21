@@ -18,7 +18,7 @@ foreach ($line in Get-Content $examplePath) {
 $includedFiles = @(
   'README.md', 'HACKATHON.md', '.gitignore', '.env.example', 'LICENSE', 'package.json',
   'client/package.json', 'client/package-lock.json', 'client/index.html', 'client/vite.config.js',
-  'server/index.js', 'server/offers.js', 'server/index.test.js', 'scripts/package-submission.ps1'
+  'server/index.js', 'server/offers.js', 'server/index.test.js', 'scripts/package-submission.ps1', 'scripts/start-local.js'
 )
 $includedFiles += Get-ChildItem (Join-Path $projectRoot 'client/src') -File -Recurse | ForEach-Object {
   $_.FullName.Substring($projectRoot.Length).TrimStart([char] '\', [char] '/')

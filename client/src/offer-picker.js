@@ -4,14 +4,17 @@ export function getSelectableOffer(offers, offerId) {
   return offers.find(offer => offer.id === offerId && offer.compatible) || null;
 }
 
-export function OfferPicker({ offers, selectedOfferId, disabled = false, loading = false, error = '', onSelect, onClear }) {
+export function OfferPicker({ offers, selectedOfferId, disabled = false, loading = false, error = '', onSelect, onClear, onRetry }) {
   const h = React.createElement;
   const children = [
     h('legend', { key: 'legend' }, 'Select a server-listed offer'),
     h('p', { className: 'hint', key: 'help' }, 'Review item, size, quantity, line price, delivery, compatibility, and total. Incompatible offers cannot be approved.'),
   ];
   if (loading) children.push(h('p', { role: 'status', key: 'loading' }, 'Loading server offers…'));
-  else if (error) children.push(h('p', { className: 'offer-load-error', role: 'alert', key: 'error' }, `Supplier offers are unavailable: ${error}`));
+  else if (error) children.push(h('div', { className: 'offer-load-error', key: 'error' }, [
+    h('p', { role: 'alert', key: 'message' }, `Supplier offers are unavailable: ${error}`),
+    onRetry && h('button', { type: 'button', className: 'retry-offers', onClick: onRetry, key: 'retry' }, 'Retry loading offers'),
+  ]));
   else if (!offers.length) children.push(h('p', { role: 'status', key: 'empty' }, 'No supplier offers were returned by the server.'));
   else {
     offers.forEach(offer => children.push(h('label', {

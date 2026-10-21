@@ -11,6 +11,7 @@ import { auditQuotes, getCompatibilityExplanation, getQuoteRecommendation } from
 import { getDemoStepSelector, getDemoStepStatus, selectActiveDemoStep } from '../client/src/demo-steps.js';
 import { getSelectableOffer, OfferPicker } from '../client/src/offer-picker.js';
 import { OfferShortcut, scrollToOfferPicker } from '../client/src/offer-shortcut.js';
+import { readApiResponse } from '../client/src/api-response.js';
 
 const renderPaymentScreen = props => ReactDOMServer.renderToStaticMarkup(React.createElement(PaymentScreen, props));
 
@@ -99,6 +100,21 @@ test('GET /api/offers returns the server catalog with compatibility and price de
     assert.equal(data.offers[1].items.length, 2);
     assert.equal(mock.calls.length, 0);
   } finally { server.close(); }
+});
+
+test('local health endpoint identifies the expected server version', async () => {
+  const { server, url } = await startMockedServer(mockPayPal().fetchImpl);
+  try {
+    const response = await fetch(`${url}/api/health`);
+    assert.deepEqual(await response.json(), { ok: true, sandbox: true, apiVersion: 3 });
+  } finally { server.close(); }
+});
+
+test('API response handling reports empty backend responses clearly', async () => {
+  await assert.rejects(readApiResponse(new Response('', { status: 500 })), /local backend is unavailable.*npm start/i);
+  await assert.rejects(readApiResponse(new Response('', { status: 200 })), /empty response.*npm start/i);
+  await assert.rejects(readApiResponse(new Response('<html>', { status: 200 })), /unreadable response.*npm start/i);
+  assert.deepEqual(await readApiResponse(new Response('{"offers":[]}', { status: 200 })), { offers: [] });
 });
 
 test('server ignores client totals and creates the Sandbox order from the selected offer snapshot', async () => {

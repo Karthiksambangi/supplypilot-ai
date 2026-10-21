@@ -28,19 +28,13 @@ Set the PayPal Sandbox app's Client ID and Secret, plus Gemini settings if neede
 
 To create a submission archive, run `./scripts/package-submission.ps1`. It packages an allowlist of source and setup files, includes only the blank credential placeholders in `.env.example`, and validates that `.env`, credential-bearing `.env.*` files, and `node_modules` are absent. The generated ZIP is also ignored by Git.
 
-Use two PowerShell terminals in this folder:
+From this folder, start the backend and frontend together in one PowerShell terminal:
 
 ```powershell
-# Terminal 1: backend
-npm run dev
+npm start
 ```
 
-```powershell
-# Terminal 2: frontend
-npm run client
-```
-
-Open **http://127.0.0.1:5173** (not `localhost`; the configured client origin must match the browser URL). Review the synthetic catalog offer, choose a compatible one, and explicitly approve it before continuing to PayPal Sandbox. The browser submits only the selected offer ID and approval; the server validates the offer, calculates its total, and freezes a snapshot for order creation and capture validation. Use only the Sandbox Personal buyer account on PayPal's Sandbox approval page. Never use live credentials or live checkout. Gemini analysis is optional and cannot select an offer, set a price, authorize a purchase, or change the basket.
+Keep that terminal open, then open **http://127.0.0.1:5173** (not `localhost`; the configured client origin must match the browser URL). After a computer restart or when the app is not running, run `npm start` again; the browser URL alone cannot start local server processes. The launcher checks the backend version and starts both services, while the offer picker provides a retry action if the local API is unavailable. Review the synthetic catalog offer, choose a compatible one, and explicitly approve it before continuing to PayPal Sandbox. The browser submits only the selected offer ID and approval; the server validates the offer, calculates its total, and freezes a snapshot for order creation and capture validation. Use only the Sandbox Personal buyer account on PayPal's Sandbox approval page. Never use live credentials or live checkout. Gemini analysis is optional and cannot select an offer, set a price, authorize a purchase, or change the basket.
 
 ## Checks
 
